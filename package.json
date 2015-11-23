@@ -1,0 +1,32 @@
+{
+  "name": "cordova-plugin-ebwebview",
+  "version": "1.0.0-dev",
+  "description": "Cordova Embedded Webview Plugin",
+  "cordova": {
+    "id": "cordova-plugin-webview",
+    "platforms": [
+      "android",
+      "ios",
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/cordova-plugin-inappbrowser"
+  },
+  "keywords": [
+    "cordova",
+    "webview",
+    "embedded",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.1.0"
+    }
+  ],
+  "author": "covernal@hotmail.com",
+  "license": "Apache 2.0"
+}
