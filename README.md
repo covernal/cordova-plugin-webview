@@ -20,4 +20,9 @@ app.webview = cordova.EbWebview.open(encodeURI('http://www.bing.com'), 'left='+a
   - removeEventListenenr(eventName, callback)
   - executScript(injection, callback)
 
- 
+### Sample
+[Here is sample javascript file] [sample]
+
+   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
+   [sample]: <https://github.com/covernal/cordova-plugin-webview/blob/master/sample/index.js>
+   
