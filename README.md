@@ -5,7 +5,7 @@ embeded webview for cordova app
 This plugin is different with inappbrowser, You can load html page or external urls in the embeded webview, and control it directly.
 
 ### Background
-This plugin is originally commissioned by [ZeGenie Inc] [ze]. Please contact us to use this plugin.
+This plugin was originally commissioned by [ZeGenie Inc] [ze].
 
 ### Install
     cordova plugin add cordova-plugin-inappbrowser
