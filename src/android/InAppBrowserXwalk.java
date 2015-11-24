@@ -51,6 +51,36 @@ public class InAppBrowserXwalk extends CordovaPlugin {
             this.setSize(data);
         } else if(action.equals("getScreenshot")) {
             this.getScreenshot(data, callbackContext);
+        } else if (action.equals("injectScriptCode")) {
+            String jsWrapper = null;
+            if (data.getBoolean(1)) {       // Is Wrapped JS
+                jsWrapper = String.format("prompt(JSON.stringify([eval(%%s)]), 'gap-iab://%s')", callbackContext.getCallbackId());
+            }
+            injectDeferredObject(data.getString(0), jsWrapper);     // JavaScript String
+        }  else if (action.equals("injectScriptFile")) {
+            String jsWrapper;
+            if (data.getBoolean(1)) {
+                jsWrapper = String.format("(function(d) { var c = d.createElement('script'); c.src = %%s; c.onload = function() { prompt('', 'gap-iab://%s'); }; d.body.appendChild(c); })(document)", callbackContext.getCallbackId());
+            } else {
+                jsWrapper = "(function(d) { var c = d.createElement('script'); c.src = %s; d.body.appendChild(c); })(document)";
+            }
+            injectDeferredObject(data.getString(0), jsWrapper);
+        } else if (action.equals("injectStyleCode")) {
+            String jsWrapper;
+            if (data.getBoolean(1)) {
+                jsWrapper = String.format("(function(d) { var c = d.createElement('style'); c.innerHTML = %%s; d.body.appendChild(c); prompt('', 'gap-iab://%s');})(document)", callbackContext.getCallbackId());
+            } else {
+                jsWrapper = "(function(d) { var c = d.createElement('style'); c.innerHTML = %s; d.body.appendChild(c); })(document)";
+            }
+            injectDeferredObject(data.getString(0), jsWrapper);
+        }  else if (action.equals("injectStyleFile")) {
+            String jsWrapper;
+            if (data.getBoolean(1)) {
+                jsWrapper = String.format("(function(d) { var c = d.createElement('link'); c.rel='stylesheet'; c.type='text/css'; c.href = %%s; d.head.appendChild(c); prompt('', 'gap-iab://%s');})(document)", callbackContext.getCallbackId());
+            } else {
+                jsWrapper = "(function(d) { var c = d.createElement('link'); c.rel='stylesheet'; c.type='text/css'; c.href = %s; d.head.appendChild(c); })(document)";
+            }
+            injectDeferredObject(data.getString(0), jsWrapper);
         }
 
         return true;
@@ -295,6 +325,26 @@ public class InAppBrowserXwalk extends CordovaPlugin {
         });
     }
 
+
+    private void injectDeferredObject(String source, String jsWrapper) {
+        String scriptToInject;
+        if (jsWrapper != null) {
+            org.json.JSONArray jsonEsc = new org.json.JSONArray();
+            jsonEsc.put(source);
+            String jsonRepr = jsonEsc.toString();
+            String jsonSourceString = jsonRepr.substring(1, jsonRepr.length()-1);
+            scriptToInject = String.format(jsWrapper, jsonSourceString);
+        } else {
+            scriptToInject = source;
+        }
+        final String finalScriptToInject = scriptToInject;
+        this.cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    xWalkWebView.evaluateJavascript(finalScriptToInject, null);
+            }
+        });
+    }
     // Get the screenshot of the browser dialog.
     // Params : JPEG Quality, and what to do callback.
     public void getScreenshot(JSONArray data, CallbackContext _callbackContext)  throws JSONException {
