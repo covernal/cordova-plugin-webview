@@ -30,7 +30,7 @@
     <issue>https://issues.apache.org/jira/browse/CB/component/12320641</issue>
  -->
     <engines>
-      <engine name="cordova" version=">=3.1.0" /><!-- Needs cordova/urlutil -->
+      <engine name="cordova" version=">=3.1.0" /><!-- Needs cordova/urlutl -->
     </engines>
 
     <js-module src="www/ebwebview.js" name="ebwebview">
@@ -77,7 +77,7 @@
       <source-file src="src/android/InAppBrowserXwalk.java" target-dir="src/com/ebwebview/plugin/"/>
       <source-file src="src/android/BrowserDialog.java" target-dir="src/com/ebwebview/plugin/"/>
 
-      <framework src="src/android/xwalk.gradle" custom="true" type="gradleReference"/>
+      <!-- <framework src="src/android/xwalk.gradle" custom="true" type="gradleReference"/> -->
     </platform>
 
 </plugin>
